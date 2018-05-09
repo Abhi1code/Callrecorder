@@ -53,8 +53,8 @@ public class Recordcall extends Service {
 
         if (filehandler.isExternalStorageAvailable()){
             pathtosave = filehandler.generatefilenameonexternalstorage();
-//            pathtosave = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+
-//                    "record.3gp";
+//            pathtosave = String.valueOf(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+
+//                    "record.3gp");
         }else {
             pathtosave = filehandler.generatetempbackupfileinanternalstorage(context);
         }
