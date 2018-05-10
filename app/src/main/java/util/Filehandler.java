@@ -16,27 +16,25 @@ public class Filehandler {
         return false;
     }
 
-    public File generatefilenameonexternalstorage(){
+    public String generatefilenameonexternalstorage(String number){
 
-        File pointtosavedirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-                                             ,"Recorded call");
-        File pointtofile = new File(pointtosavedirectory,System.currentTimeMillis()+".3gp");
+        String pointtofile = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
+                "Callrecordings" + File.separator + number + "," + Utils.getdateandtime() + ".mp3";
 
-        if (!pointtofile.exists()){
-            pointtofile.mkdirs();
-        }
         return pointtofile;
     }
 
+    public String generatefilenameoninternalstorage(Context context,String number){
 
-    public File generatetempbackupfileinanternalstorage(Context context){
+        String pointtofile = context.getFilesDir().getAbsolutePath() + File.separator +
+                             "Callrecordings" + File.separator + number + "," + Utils.getdateandtime() + ".mp3";
+        return pointtofile;
+    }
 
-        File pointtosaveddirectory = new File(context.getFilesDir(),"Recording Backup");
-        File pointtofile = new File(pointtosaveddirectory,"Backup.3gp");
+    public static String generatebackupfileoninternalstorage(Context context,String number){
 
-        if (!pointtofile.exists()){
-            pointtofile.mkdirs();
-        }
+        String pointtofile = context.getFilesDir().getAbsolutePath() + File.separator + "backup.mp3";
+
         return pointtofile;
     }
 }

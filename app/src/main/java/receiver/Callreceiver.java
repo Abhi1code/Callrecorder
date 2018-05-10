@@ -18,25 +18,22 @@ public class Callreceiver extends BroadcastReceiver{
 
         if (state == null){
             //outgoing call
-            //Toast.makeText(context, "Callrecorder on it's way", Toast.LENGTH_SHORT).show();
-            Log.d("ABHI","outgoing");
+            Toast.makeText(context, "Callrecorder on it's way", Toast.LENGTH_SHORT).show();
+
         }else if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)){
             //incoming call
-            //Toast.makeText(context, "Callrecorder on it's way", Toast.LENGTH_SHORT).show();
-            Log.d("ABHI","incoming");
+            Toast.makeText(context, "Callrecorder on it's way", Toast.LENGTH_SHORT).show();
+
         }else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
 
             String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
             Intent startintent = new Intent(context, Recordcall.class);
-            //startintent.putExtra("number",number);
+            startintent.putExtra("number",number);
             context.startService(startintent);
-            Toast.makeText(context, ""+number, Toast.LENGTH_SHORT).show();
-            Log.d("ABHI","ringing");
-        } else {
-            if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
-                Log.d("ABHI","idle");
+
+        } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
+
                 context.stopService(new Intent(context, Recordcall.class));
-            }
         }
     }
 }

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import util.Filehandler;
+import util.Utils;
 
 public class Recordcall extends Service {
 
@@ -37,8 +38,11 @@ public class Recordcall extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.getStringExtra("number") != null){
-            number = intent.getStringExtra("number");
+        String phonenumber = intent.getStringExtra("number");
+        if (phonenumber != null && phonenumber.length() != 0){
+            number = phonenumber;
+        }else {
+            number = "null";
         }
         startrecording(this);
         return START_STICKY;
@@ -52,15 +56,15 @@ public class Recordcall extends Service {
 
     private void preparemediarecorder(Context context){
 
-//        if (filehandler.isExternalStorageAvailable()){
-//            pathtosave = filehandler.generatefilenameonexternalstorage();
-//
-//        }else {
-//            pathtosave = filehandler.generatetempbackupfileinanternalstorage(context);
-//        }
-        pathtosave = context.getFilesDir().getAbsolutePath()+File.separator+"record.3gp";
+        if (filehandler.isExternalStorageAvailable()){
+            pathtosave = filehandler.generatefilenameonexternalstorage(number);
+
+        }else {
+            pathtosave = filehandler.generatefilenameoninternalstorage(context,number);
+        }
 
         mediaRecorder = new MediaRecorder();
+
         if (Build.MANUFACTURER.toLowerCase().contains("lenovo")){
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
         }else {
@@ -69,12 +73,13 @@ public class Recordcall extends Service {
 
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mediaRecorder.setOutputFile(String.valueOf(pathtosave));
-        Toast.makeText(context, ""+pathtosave, Toast.LENGTH_LONG).show();
+        mediaRecorder.setOutputFile(pathtosave);
+
     }
 
     private void startrecording(Context context) {
         preparemediarecorder(this);
+
         if (mediaRecorder != null && status == false) {
             try {
                 mediaRecorder.prepare();
