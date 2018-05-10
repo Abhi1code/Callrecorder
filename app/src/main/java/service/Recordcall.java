@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -18,7 +19,7 @@ public class Recordcall extends Service {
 
     private MediaRecorder mediaRecorder;
     private static String number = "";
-    private static File pathtosave;
+    private static String pathtosave;
     private util.Filehandler filehandler = new util.Filehandler();
     private static boolean status = false;
 
@@ -51,16 +52,21 @@ public class Recordcall extends Service {
 
     private void preparemediarecorder(Context context){
 
-        if (filehandler.isExternalStorageAvailable()){
-            pathtosave = filehandler.generatefilenameonexternalstorage();
-//            pathtosave = String.valueOf(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+
-//                    "record.3gp");
-        }else {
-            pathtosave = filehandler.generatetempbackupfileinanternalstorage(context);
-        }
+//        if (filehandler.isExternalStorageAvailable()){
+//            pathtosave = filehandler.generatefilenameonexternalstorage();
+//
+//        }else {
+//            pathtosave = filehandler.generatetempbackupfileinanternalstorage(context);
+//        }
+        pathtosave = context.getFilesDir().getAbsolutePath()+File.separator+"record.3gp";
 
         mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        if (Build.MANUFACTURER.toLowerCase().contains("lenovo")){
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+        }else {
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        }
+
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mediaRecorder.setOutputFile(String.valueOf(pathtosave));
@@ -90,6 +96,7 @@ public class Recordcall extends Service {
             mediaRecorder.stop();
             mediaRecorder.release();
             status = false;
+            mediaRecorder = null;
             Toast.makeText(context, "Recording stopped", Toast.LENGTH_SHORT).show();
         }
     }

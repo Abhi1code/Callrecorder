@@ -24,16 +24,18 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="receiver.Callreceiver" android:enabled="true" android:process=":receiver"
-                  android:directBootAware="true" android:exported="false">
+        <receiver android:name="receiver.Callreceiver" android:enabled="true"
+                   android:exported="false" android:directBootAware="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
             </intent-filter>
         </receiver>
 
         <service android:name="service.Recordcall" android:enabled="true"
-                 android:directBootAware="true" android:exported="false"/>
+                  android:exported="false" android:directBootAware="true"/>
 
     </application>
 
