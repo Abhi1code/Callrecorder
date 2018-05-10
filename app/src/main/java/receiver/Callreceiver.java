@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
-
 import service.Recordcall;
 
 public class Callreceiver extends BroadcastReceiver{

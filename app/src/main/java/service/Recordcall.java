@@ -5,16 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
-
-import java.io.File;
 import java.io.IOException;
-
-import util.Filehandler;
-import util.Utils;
 
 public class Recordcall extends Service {
 
